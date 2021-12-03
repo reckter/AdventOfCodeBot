@@ -10,13 +10,13 @@ async def run_stats(ctx, args):
 
     #asking for another players stats
     if username:
-        with shelve.open('hachikuji.mayoi') as db:
+        with shelve.open('data/hachikuji.mayoi') as db:
             leaderboard = Leaderboard(db)
             player = next((pl for pl in leaderboard.players if pl.name.lower() == username), None)
     #asking for personal stats
     else:
         try:
-            with shelve.open('hachikuji.mayoi') as db:
+            with shelve.open('data/hachikuji.mayoi') as db:
                 myUser = db[str(ctx.author)]
                 leaderboard = Leaderboard(db)
                 player = [pl for pl in leaderboard.players if pl.name.lower() == myUser['username'].lower()][0]

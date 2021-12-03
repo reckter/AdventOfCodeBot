@@ -21,7 +21,7 @@ async def on_ready():
 
 @bot.command()
 async def plb(ctx):
-    with shelve.open('hachikuji.mayoi') as db:
+    with shelve.open('data/hachikuji.mayoi') as db:
         leaderboard = Leaderboard(db)
         await ctx.message.channel.send(
             embed=build_leaderboard_embed(
@@ -33,7 +33,7 @@ async def plb(ctx):
 
 @bot.command()
 async def clb(ctx):
-    with shelve.open('hachikuji.mayoi') as db:
+    with shelve.open('data/hachikuji.mayoi') as db:
         leaderboard = Leaderboard(db)
         await ctx.message.channel.send(
             embed=build_leaderboard_embed(

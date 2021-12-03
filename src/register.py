@@ -12,7 +12,7 @@ async def run_register(ctx, arg):
         await send_registered_users(ctx)
 
 def register_user(username, author):
-    with shelve.open('hachikuji.mayoi') as db:
+    with shelve.open('data/hachikuji.mayoi') as db:
         leaderboard = Leaderboard(db)
         players = [x.name.lower() for x in leaderboard.players]
         if str(author) not in db:
@@ -29,7 +29,7 @@ def register_user(username, author):
 
 async def send_registered_users(ctx):
     fields = []
-    with shelve.open('hachikuji.mayoi') as db:
+    with shelve.open('data/hachikuji.mayoi') as db:
         for key, value in db.items():
             fields.append((key, value['username'], True))
     embed = build_embed(

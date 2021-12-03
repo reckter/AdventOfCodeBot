@@ -13,7 +13,7 @@ async def run_schedule(ctx, arg):
     if not arg:
         #send the next scheduled send time
         try:
-            with shelve.open('senjougahara.hitagi') as db:
+            with shelve.open('data/senjougahara.hitagi') as db:
                 hours, minutes = db["scoreboard_send_time"]
                 await ctx.message.channel.send(f"The next scheduled scoreboard will send at {hours}:{minutes} EST.")
         except KeyError:
@@ -40,14 +40,14 @@ async def run_schedule(ctx, arg):
     hours =  24 - (abs(minutes // 60)) if indicator == "-" else abs(minutes) // 60
     minutes = minutes % 60
     print(hours, minutes)
-    with shelve.open('senjougahara.hitagi') as db:
+    with shelve.open('data/senjougahara.hitagi') as db:
         db["scoreboard_send_time"] = (hours, minutes)
 
     #initializing scheduler
     await schedule_job(ctx)
 
 async def schedule_job(ctx):
-    with shelve.open('senjougahara.hitagi') as db:
+    with shelve.open('data/senjougahara.hitagi') as db:
         hours, minutes = db["scoreboard_send_time"]
     scheduler.remove_all_jobs()
     if datetime.now().month >= 11:
@@ -66,7 +66,7 @@ async def schedule_job(ctx):
         ctx.message.channel.send("No longer scheduling scoreboard messages, as it is not November or December.")
 
 async def send_scheduled_message(ctx):
-    with shelve.open('hachikuji.mayoi') as db:
+    with shelve.open('data/hachikuji.mayoi') as db:
         leaderboard = Leaderboard(db)
         await ctx.message.channel.send(
             embed=build_leaderboard_embed(

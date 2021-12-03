@@ -7,7 +7,7 @@ async def run_start(ctx, arg):
 
 def start_session(day, author):
     if(day.isnumeric()):
-        with shelve.open('hachikuji.mayoi') as db:
+        with shelve.open('data/hachikuji.mayoi') as db:
             day = int(day) - 1
             if str(author) not in db:
                 return "User not registered"
