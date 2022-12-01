@@ -7,7 +7,9 @@ import simplejson
 
 from src.config import SESSION_COOKIE, URL, YEAR
 
-
+headers = {
+    "User-Agent": "discord-bot from github.com/TheFutureGadgetsLab/AdventOfCodeBot"
+}
 def truncate_name(name):
     return name[:18] + "…" if len(name) > 20 else name
 
@@ -58,14 +60,14 @@ def query_leaderboard_API():
     if (delta.total_seconds() / 60) >= 15:
         debug("making GET request to API")
         cookies = dict(session=SESSION_COOKIE)
-        response = requests.request("GET", URL, cookies=cookies)
+        response = requests.request("GET", URL, cookies=cookies, headers=headers)
         cache_time = datetime.now()
         cached_response = response.json()
     return cached_response
 
 def check_validity_of_config():
     cookies = dict(session=SESSION_COOKIE)
-    response = requests.request("GET", URL, cookies=cookies)
+    response = requests.request("GET", URL, cookies=cookies, headers=headers)
     if response.status_code == 404:
         error("config.py: YEAR is invalid")
     if response.status_code == 500:
