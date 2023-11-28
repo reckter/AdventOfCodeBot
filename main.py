@@ -11,7 +11,10 @@ from src.stats import run_stats
 import discord
 from logging import debug, info, warning, error, critical
 
-bot = commands.Bot(command_prefix=COMMAND_PREFIX)
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix=COMMAND_PREFIX, intents=intents)
 bot.remove_command('help')
 
 data_mutex = Lock()
@@ -29,7 +32,7 @@ async def plb(ctx):
         await ctx.message.channel.send(
             embed=build_leaderboard_embed(
                 "Public", 
-                leaderboard.players[0].name, 
+                leaderboard.players_sorted_public()[0].name, 
                 leaderboard.public_leaderboard()
             )
         )
@@ -42,7 +45,7 @@ async def clb(ctx):
         await ctx.message.channel.send(
             embed=build_leaderboard_embed(
                 "Custom", 
-                leaderboard.players[0].name, 
+                leaderboard.players_sorted_custom()[0].name, 
                 leaderboard.custom_leaderboard()
             )
         )
