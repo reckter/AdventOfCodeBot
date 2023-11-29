@@ -12,7 +12,7 @@ import discord
 from logging import debug, info, warning, error, critical
 
 intents = discord.Intents.default()
-intents.message = True
+intents.messages = True
 
 bot = commands.Bot(command_prefix=COMMAND_PREFIX, intents=intents)
 bot.remove_command('help')
