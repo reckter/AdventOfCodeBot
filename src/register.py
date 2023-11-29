@@ -15,6 +15,17 @@ async def run_register(ctx, arg):
     else:
         await send_registered_users(ctx)
 
+def reset_all_start_times():
+    with shelve.open('data/hachikuji.mayoi') as db:
+        players = list(db.keys())
+        for player in players:
+            print(db[player])
+            db[player] = {
+                "start_times":{k:None for  k in range(0,25)},
+                "username": db[player]["username"]
+            }
+            print(db[player])
+
 def register_user(username, author):
     with shelve.open('data/hachikuji.mayoi') as db:
         leaderboard = Leaderboard(db)

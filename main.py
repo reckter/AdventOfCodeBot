@@ -8,6 +8,7 @@ from src.schedule import scheduler, run_schedule
 from src.register import run_register
 from src.start import run_start
 from src.stats import run_stats
+from src.register import reset_all_start_times
 import discord
 from logging import debug, info, warning, error, critical
 
@@ -73,6 +74,15 @@ async def schedule(ctx, *args):
 async def stats(ctx, *args):
     debug(f'cmd> {ctx.author}: stats {" ".join(args)}')
     await run_stats(ctx, " ".join(args).lower())
+
+@bot.command()
+async def reset_all(ctx, *args):
+    debug(f'cmd> {ctx.author}: reset_all {" ".join(args)}')
+    reset_all_start_times()
+    await ctx.message.channel.send(
+        "reset all start_times"
+    )
+
 
 @bot.command()
 async def help(ctx, *args):
